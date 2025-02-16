@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { InspectionForm, UploadResponse } from '@/types/inspection';
 
-
 // Create two separate axios instances for different base URLs
 const uploadApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_UPLOAD_API_URL,
@@ -41,9 +40,39 @@ export const submitInspectionForm = async (data: InspectionForm) => {
   return response.data;
 };
 
-export const DeleteImage = async (filename: string | null) => {
+export const deleteImage = async (filename: string | null) => {
   try{
     const response = await uploadApi.post(`api/delete-file?url=${filename}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    throw new Error('Failed to delete image');
+  }
+};
+
+interface PaginationParams {
+  page?: number;
+  per_page?: number;
+}
+
+export const getImages = async ({ page = 1, per_page = 10 }: PaginationParams = {}) => {
+  try {
+    const response = await api.get('api/images', {
+      params: {
+        page,
+        per_page,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    throw new Error('Failed to fetch images');
+  }
+};
+
+export const destroyDataImage = async (id: string | null) => {
+  try {
+    const response = await api.delete(`api/images/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting image:', error);

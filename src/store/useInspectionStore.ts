@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { ImageField } from '@/types/inspection';
-import { DeleteImage } from '@/services/api';
+import { deleteImage, destroyDataImage } from '@/services/api';
 
 interface InspectionStore {
   imageFields: ImageField[];
   addImageField: () => void;
   removeImageField: (field: ImageField) => void;
   updateImageField: (id: string, updates: Partial<ImageField>) => void;
+  setImageFields: (images: ImageField[]) => void;
   reset: () => void;
 }
 
@@ -15,13 +16,14 @@ export const useInspectionStore = create<InspectionStore>((set) => ({
   addImageField: () => {
     set((state) => ({
       imageFields: [
-        ...state.imageFields,
         { id: crypto.randomUUID(), imageUrl: null, label: '', path: null },
+        ...state.imageFields,
       ],
     }));
   },
   removeImageField: (data: ImageField) => {
-    DeleteImage(data.path);
+    deleteImage(data.path);
+    destroyDataImage(data.id);
     set((state) => ({
       imageFields: state.imageFields.filter((field) => field.id !== data.id),
     }));
@@ -32,6 +34,9 @@ export const useInspectionStore = create<InspectionStore>((set) => ({
         field.id === id ? { ...field, ...updates } : field
       ),
     }));
+  },
+  setImageFields: (images: ImageField[]) => {
+    set({ imageFields: images });
   },
   reset: () => {
     set({ imageFields: [] });

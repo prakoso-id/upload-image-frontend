@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ImageField as IImageField } from '@/types/inspection';
 import { useInspectionStore } from '@/store/useInspectionStore';
 import { useMutation } from '@tanstack/react-query';
-import { uploadImage, DeleteImage } from '@/services/api';
+import { uploadImage, deleteImage } from '@/services/api';
 
 interface ImageFieldProps {
   field: IImageField;
@@ -21,7 +21,7 @@ export const ImageField = ({ field }: ImageFieldProps) => {
       // Delete the old image if it exists
       if (field.path) {
         try {
-          await DeleteImage(field.path);
+          await deleteImage(field.path);
         } catch (error) {
           console.error('Error deleting old image:', error);
           // Continue with updating the new image even if deletion fails
