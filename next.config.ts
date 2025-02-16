@@ -8,10 +8,11 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: 'localhost',
         port: '4000',
-        pathname: '/**',
+        pathname: '/uploads/**',
       },
     ],
-  },
+    unoptimized: process.env.NODE_ENV === 'production',
+  }
 };
 
 export default nextConfig;

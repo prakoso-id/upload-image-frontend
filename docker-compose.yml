@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_UPLOAD_API_URL=${NEXT_PUBLIC_UPLOAD_API_URL}
+        - NEXT_PUBLIC_REST_API_URL=${NEXT_PUBLIC_REST_API_URL}
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_UPLOAD_API_URL=${NEXT_PUBLIC_UPLOAD_API_URL}
+      - NEXT_PUBLIC_REST_API_URL=${NEXT_PUBLIC_REST_API_URL}
+    restart: unless-stopped

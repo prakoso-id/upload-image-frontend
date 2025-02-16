@@ -13,8 +13,6 @@ export const ImageField = ({ field }: ImageFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { updateImageField, removeImageField } = useInspectionStore();
 
-  console.log('field', field);
-
   const uploadMutation = useMutation({
     mutationFn: uploadImage,
     onSuccess: async (data) => {
@@ -93,7 +91,7 @@ export const ImageField = ({ field }: ImageFieldProps) => {
         {field.imageUrl ? (
           <div className="relative w-full h-[200px] group">
             <Image
-              src={field.imageUrl}
+              src={`${field.imageUrl}`}
               alt={field.label || 'Uploaded image'}
               fill
               className="object-cover"

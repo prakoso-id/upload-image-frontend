@@ -15,6 +15,7 @@ interface ImageResponse {
   data: Array<{
     id: string;
     path: string;
+    imageUrl: string;
     label?: string;
   }>;
   meta: PaginationMeta;
@@ -36,7 +37,7 @@ export const InspectionForm = () => {
     if (data?.data) {
       const images = data.data.map((image) => ({
         id: image.id,
-        imageUrl: `${process.env.NEXT_PUBLIC_UPLOAD_API_URL}${image.path}`,
+        imageUrl: image.imageUrl,
         label: image.label || '',
         path: image.path || null,
       }));
